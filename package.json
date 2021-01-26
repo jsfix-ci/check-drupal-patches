@@ -1,6 +1,6 @@
 {
   "name": "check-drupal-patches",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Checks a list of Drupal patches against package releases",
   "keywords": [
     "drupal",

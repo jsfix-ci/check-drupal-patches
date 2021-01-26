@@ -48,6 +48,9 @@ At the moment there's no way to check development versions of dependencies.
 
 ## Changelog
 
+**v0.1.1**
+Fixed a typo
+
 **v0.1.0**
 Initial release
 
