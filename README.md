@@ -11,7 +11,7 @@ multiple releases of your dependencies (Drupal core and contributed packages).
 For each dependency release it will tell you whether a given patch has been applied,
 is applicable or can't be applied.
 
-No modifications are made to your project folder.
+No modifications are made to your project folder, and Drupal doesn't need to be installed.
 
 ## Requirements
 
@@ -40,6 +40,22 @@ Be aware the scan might take quite some time. The reason is that your
 dependencies will be installed to a temporary folder from source, so
 there will be a complete git history.
 
+Sample Output:
+```
+...
+ℹ Checking patches for package drupal/protected_submissions...
+    Installed version: 8.x-1.3
+    Patch description: update latin unicode range
+    - Patch is not applicable for tag: 8.x-1.0
+    - Patch is not applicable for tag: 8.x-1.1
+    - Patch is applicable for tag: 8.x-1.2
+    - Patch is applicable for tag: 8.x-1.3
+    - Patch has been applied to tag: 8.x-1.4
+    - Patch is not applicable for tag: 8.x-1.5
+    - Patch is not applicable for tag: 8.x-1.6
+    - Patch is not applicable for tag: 8.x-1.7
+    - Patch is not applicable for tag: 8.x-1.8
+```    
 ## TODO
 
 For now, this tool is kind of a POC and needs definitely more testing. There will be bugs for sure. Feel free to open issues (good) and pull requests (better).
