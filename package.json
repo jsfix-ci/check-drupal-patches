@@ -9,7 +9,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/drubb/check-dripal-patches.git"
+    "url": "https://github.com/drubb/check-drupal-patches.git"
   },
   "author": "drubb",
   "license": "MIT",
