@@ -64,6 +64,12 @@ At the moment there's no way to check development versions of dependencies.
 
 ## Changelog
 
+**v0.1.3**
+Added version check for NodeJS
+
+**v0.1.2**
+Added sample output to README
+
 **v0.1.1**
 Fixed a typo
 

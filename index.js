@@ -292,6 +292,9 @@ function preFlightCheck(root) {
  * Check if the needed CLI tools are installed.
  */
 function checkTools() {
+    if (parseInt(process.versions.node.split('.')[0]) < 12) {
+        throw new Error('NodeJS >= 12 is needed for execution');
+    }
     if (!commandExistsSync('git')) {
         throw new Error('Git is needed for execution');
     }
