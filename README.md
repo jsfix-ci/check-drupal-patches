@@ -18,6 +18,7 @@ No modifications are made to your project folder, and Drupal doesn't need to be 
 * NodeJS >=12.0.0
 * Git
 * Composer
+* Patch utility
 
 ## Installation
 
@@ -60,9 +61,13 @@ Sample Output:
 
 For now, this tool is kind of a POC and needs definitely more testing. There will be bugs for sure. Feel free to open issues (good) and pull requests (better).
 
-At the moment there's no way to check development versions of dependencies.
+* At the moment there's no way to check development versions of dependencies.
+* For now, remote patches aren't supported, the patchfiles need to be stored locally.
 
 ## Changelog
+
+**v0.2.0**
+Switched to more robust patch application method
 
 **v0.1.3**
 Added version check for NodeJS

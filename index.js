@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { program } = require('commander');
-const { execSync } = require("child_process");
+const { execSync, spawnSync } = require("child_process");
 const fs = require('fs');
 const os = require('os');
 const consola = require('consola');
@@ -76,7 +76,13 @@ function checkPatches(patchList) {
 function checkPatch(package, description, patchfile, path) {
     // Enter the package folder
     const workdir = process.cwd();
-    process.chdir(path);
+    try {
+        process.chdir(path);
+    }
+    catch {
+        consola.warn(`Skipping patch for ${package}, package not found. Maybe the patch should be removed.`)
+        return;
+    }
 
     // Get the package version and a list of tags in the same branch.
     const version = getPackageVersion();
@@ -114,19 +120,47 @@ function checkTag(tag, patchfile) {
     if (result.error) {
         throw new Error(result.output);
     }
-    // Test if patch has been applied already.
-    result = execSyncSilent(`git apply -R --check ${patchfile}`);
-    if (!result.error) {
-        return 1;
-    }
-    // Test if patch is applicable.
-    result = execSyncSilent(`git apply --check ${patchfile}`);
-    if (!result.error) {
-        return 0;
-    }
-    // The patch is not applicable.
-    return -1;
+    // Check patch applicability.
+    return patch(patchfile);
 
+}
+
+/**
+ * Check a patch file against the current package.
+ *
+ * @param {*} patchfile - The patch file to be checked.
+ */
+function patch(patchfile) {
+
+    let command;
+
+    // Try the patch using all the possible patch levels.
+    for (let level = 0; level < 5; level++) {
+        // Check if the patch has been applied already.
+        command = spawnSync('patch', [
+            `-p${level}`,
+            '-R',
+            '--dry-run',
+            '--no-backup-if-mismatch',
+            '--silent',
+            `--input=${patchfile}`
+        ]);
+        if (command.status === 0) { // Patch has been applied already.
+            return 1;
+        }
+        // Check if the patch can be applied.
+        command = spawnSync('patch', [
+            `-p${level}`,
+            '--dry-run',
+            '--no-backup-if-mismatch',
+            '--silent',
+            `--input=${patchfile}`
+        ]);
+        if (command.status === 0) { // Patch is applicable.
+            return 0;
+        }
+    }
+    return -1; // Patch isn't applicable, or there was an error.
 }
 
 /**
@@ -294,6 +328,9 @@ function preFlightCheck(root) {
 function checkTools() {
     if (parseInt(process.versions.node.split('.')[0]) < 12) {
         throw new Error('NodeJS >= 12 is needed for execution');
+    }
+    if (!commandExistsSync('patch')) {
+        throw new Error('Patch utility is needed for execution');
     }
     if (!commandExistsSync('git')) {
         throw new Error('Git is needed for execution');
