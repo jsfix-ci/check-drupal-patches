@@ -196,6 +196,12 @@ function getTags(version) {
  * Defines and handles the command.
  */
 function handleCommand() {
+    /* TODO: JSFIX could not patch the breaking change:
+    TypeScript declaration for .addHelpText() callback no longer allows result of undefined, now just string 
+    Suggested fix: Only breaking if the 2nd argument 'text' of addHelpText() might return undefined: The type of addHelpText() has been changed. To accommodate this return an appropriate string instead. */
+    /* TODO: JSFIX could not patch the breaking change:
+    [Deprecated] second parameter of cmd.description(desc, argDescriptions) for adding argument descriptions  
+    Suggested fix: Passing a second argument to description is deprecated after 8.0.0. We suggest using the argument API (for example, new ...description('Checks Drupal patches managed by Composer against package releases').argument(name, description)), which is meant for declaring program arguments instead. */
     program
         .arguments('<root>')
         .description('Checks Drupal patches managed by Composer against package releases', {
